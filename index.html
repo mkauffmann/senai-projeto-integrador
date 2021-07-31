@@ -16,20 +16,25 @@
           alt="Ciclo Básico"
         />
       </a>
-      <div class="mobile-nav-icon">
-        <span class="hamburger"></span>
-        <span class="hamburger"></span>
-        <span class="hamburger"></span>
-      </div>
+      
       <ul class="nav-items">
-        <li class="nav-item"><a href="">Catálogo</a></li>
-        <li class="nav-item"><a href="">Sobre</a></li>
-        <li class="nav-item"><a href="">Contato</a></li>
+          <div class="nav-links closed">
+            <li class="nav-item"><a href="">Catálogo</a></li>
+            <li class="nav-item"><a href="">Sobre</a></li>
+            <li class="nav-item"><a href="">Contato</a></li>
+            <li class="nav-item login login-mobile"><a href="">Entrar</a></li>
+          </div>
         <li class="nav-item busca-container">
           <input class="busca" type="text" name="busca" placeholder="Pesquisar" />
         </li>
-        <li class="nav-item login"><a href="">Entrar</a></li>
+        <a href=""><li class="nav-item login login-desktop">Entrar</li></a>
       </ul>
+      <div class="mobile-nav-icon closed" >
+        <span class="hamburger hamburger-1"> </span>
+        <span class="hamburger hamburger-2"> </span>
+        <span class="hamburger hamburger-3"> </span>
+      </div>
     </nav>
+    <script src="./_javascript/script.js"></script>
   </body>
 </html>
