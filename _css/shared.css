@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Ubuntu&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ------NAV DESKTOP start------ */
+
+nav {
+    width: 100%;
+    height: 80px;
+    background-color: #98BFE5;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1.12em ;
+
+    border-radius: 0 0 5px 5px;
+    box-shadow: 2px 2px 0 black;
+    border: 1px solid black;
+}
+
+.nav-logo {
+    width: 250px;
+}
+
+.mobile-nav-icon {
+    display: none;
+}
+
+.nav-items {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+}
+
+.nav-items a {
+    text-decoration: none;
+    color: #101D42;
+}
+
+.nav-items a:hover,
+.nav-items a:active {
+    color: #415897;
+}
+
+.busca {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #101D42;
+
+    border-radius: 3px;
+}
+
+
+.busca-container::after{
+    content: " ";
+    background-image: url(../_imagens/search.png);
+    background-size: contain;
+    width: 16px;
+    height: 16px;
+    display: block;
+    position: absolute;
+    margin-left: 170px;
+    margin-top: -25px;
+}
+
+.login::before {
+    content: " ";
+    background-image: url(../_imagens/user.png);
+    background-size: 18px;
+    width: 18px;
+    height: 18px;
+    display: block;
+    position: absolute;
+    margin-left: -25px;
+    margin-top: 2px;
+}
+
+/* ------NAV DESKTOP end------ */
