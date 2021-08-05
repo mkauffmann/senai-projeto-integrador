@@ -9,6 +9,7 @@
 
 body {
     font-family: 'Ubuntu', sans-serif;
+    color: #101D42;
 }
 
 /* ------NAV start------ */
@@ -51,6 +52,9 @@ nav {
     justify-content: space-around;
     align-items: center;
     width: 70%;
+    margin-bottom: 0;
+    z-index: 1;
+
 }
 
 .login-mobile {
@@ -86,7 +90,7 @@ nav {
     display: block;
     position: absolute;
     margin-left: 170px;
-    margin-top: -25px;
+    margin-top: -30px;
 }
 
 .login::before {
@@ -101,7 +105,63 @@ nav {
     margin-top: 2px;
 }
 
+
 /* ------NAV end------ */
+
+/* TITULOS start  */
+
+h2 {
+    font-family: 'Oswald', sans-serif;
+}
+
+/* TITULOS END  */
+
+/* IMAGENS start  */
+
+.foto {
+    border: 1px solid #101D42;
+    box-shadow: 3px 3px 0 #101D42;
+    border-radius: 20px;
+}
+
+/* IMAGENS end  */
+
+/* BOTAO START  */
+.botao {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    background-color: #F4D35E;
+    color: #101D42;
+    border: 1px solid #101D42;
+    padding: 0.7rem 2rem;
+    border-radius: 40px;
+    box-shadow: 1px 1px 0 #101D42;
+    transition: 0.3s;
+}
+
+.botao:hover {
+    color: #E89548;
+    background-color: #F4D35E;;
+    border: 1px solid #E89548;
+    box-shadow: 1px 1px 0 #E89548;
+}
+
+a.botao {
+    text-decoration: none;
+}
+/* BOTAO END  */
+
+/* INPUT start  */
+.custom-input {
+    border: 1px solid #101D42;
+}
+
+.custom-input:focus {
+    border: 1px solid #101D42;
+    box-shadow: 3px 3px 0 #101D42;
+}
+
+/* INPUT end  */
 
 /* ------FOOTER start------ */
 
@@ -248,10 +308,12 @@ footer {
     }
     /* ------NAV end------ */
 
+
     /* ------FOOTER start------ */
+    
 
     footer {
-        position: fixed;
+        /* position: fixed; */
         bottom: 0;
     }
     .footer-container {
