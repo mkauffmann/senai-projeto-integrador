@@ -163,6 +163,19 @@ a.botao {
 
 /* INPUT end  */
 
+/* LINKS start  */
+
+a.link {
+    color: #232ED1;
+    font-size: 1.1rem;
+}
+
+a.link:hover {
+    color: #E89548;
+}
+
+/* LINKS end  */
+
 /* ------FOOTER start------ */
 
 footer {

@@ -7,12 +7,18 @@
     <title>Ciclo Básico</title>
 
     <link
+      rel="shortcut icon"
+      href="./_imagens/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
       crossorigin="anonymous"
     />
-
+    <link rel="stylesheet" href="./_css/modal.css" />
     <link rel="stylesheet" href="./_css/shared.css" />
     <link rel="stylesheet" href="./_css/home.css" />
   </head>
@@ -32,7 +38,9 @@
           <li class="nav-item"><a href="./catalogo.html">Catálogo</a></li>
           <li class="nav-item"><a href="./sobre.html">Sobre</a></li>
           <li class="nav-item"><a href="./contato.html">Contato</a></li>
-          <li class="nav-item login login-mobile"><a href="./login.html">Entrar</a></li>
+          <li class="nav-item login login-mobile">
+            <a href="./login.html">Entrar</a>
+          </li>
         </div>
         <li class="nav-item busca-container">
           <input
@@ -42,7 +50,9 @@
             placeholder="Pesquisar"
           />
         </li>
-        <a href=""><li class="nav-item login login-desktop">Entrar</li></a>
+        <a href="./login.html"
+          ><li class="nav-item login login-desktop">Entrar</li></a
+        >
       </ul>
       <div class="mobile-nav-icon closed">
         <span class="hamburger hamburger-1"> </span>
@@ -57,11 +67,22 @@
         <div class="container my-5">
           <div class="row">
             <div class="col-12 col-md-7">
-              <img
+              <!-- <img
                 class="img-fluid foto"
                 src="./_imagens/estudante.jpg"
                 alt="Estudante assistindo uma aula online"
+              /> -->
+              <img
+                src="./_imagens/estudante.jpg"
+                class="abrir_modal img_modal-senai img-fluid foto"
+                onclick="abrirModal()"
               />
+              <div class="fundo_modal" id="modal-senai">
+                <div class="modal-senai">
+                  <img src="./_imagens/estudante.jpg" />
+                  <span class="fechar" onclick="fecharModal()">&times;</span>
+                </div>
+              </div>
             </div>
             <div class="col-12 col-md-5 mt-3 mt-md-1">
               <h2>Aulas abertas, gratuitas e sem pré-requisitos</h2>
@@ -70,6 +91,7 @@
                 instituições públicas brasileiras. Nossa missão é promover a
                 educação pública, gratuita e de qualidade.
               </p>
+              <a href="./sobre.html" class="link">Saiba mais</a>
             </div>
           </div>
         </div>
@@ -114,7 +136,9 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-5 d-none d-md-block img-cadastro foto"></div>
+            <div class="col-md-5 d-none d-md-block img-cadastro foto">
+              
+            </div>
           </div>
         </div>
       </section>
@@ -127,21 +151,53 @@
               <h2>O que você quer descobrir hoje?</h2>
               <h3>Conheça nossos cursos</h3>
             </div>
-            <div class="col-6 col-lg-3 d-flex flex-column justify-content-between">
-              <img src="./_imagens/biologicas.jpg" alt="Borboleta" class="foto img-fluid my-3">
-              <a href="./catalogo.html" class="botao text-center mb-3">Biológicas</a>
+            <div
+              class="col-6 col-lg-3 d-flex flex-column justify-content-between"
+            >
+              <img
+                src="./_imagens/biologicas.jpg"
+                alt="Borboleta"
+                class="foto img-fluid my-3"
+              />
+              <a href="./catalogo.html" class="botao text-center mb-3"
+                >Biológicas</a
+              >
             </div>
-            <div class="col-6 col-lg-3 d-flex flex-column justify-content-between">
-              <img src="./_imagens/exatas.jpg" alt="Calculadora em uma mesa" class="foto img-fluid my-3">
-              <a href="./catalogo.html" class="botao text-center mb-3">Exatas</a>
+            <div
+              class="col-6 col-lg-3 d-flex flex-column justify-content-between"
+            >
+              <img
+                src="./_imagens/exatas.jpg"
+                alt="Calculadora em uma mesa"
+                class="foto img-fluid my-3"
+              />
+              <a href="./catalogo.html" class="botao text-center mb-3"
+                >Exatas</a
+              >
             </div>
-            <div class="col-6 col-lg-3 d-flex flex-column justify-content-between">
-              <img src="./_imagens/humanas.jpg" alt="Livro aberto" class="foto img-fluid my-3">
-              <a href="./catalogo.html" class="botao text-center mb-3">Humanas</a>
+            <div
+              class="col-6 col-lg-3 d-flex flex-column justify-content-between"
+            >
+              <img
+                src="./_imagens/humanas.jpg"
+                alt="Livro aberto"
+                class="foto img-fluid my-3"
+              />
+              <a href="./catalogo.html" class="botao text-center mb-3"
+                >Humanas</a
+              >
             </div>
-            <div class="col-6 col-lg-3 d-flex flex-column justify-content-between">
-              <img src="./_imagens/interdisciplinares.jpg" alt="Pessoa escrevendo em post-its" class="foto img-fluid my-3">
-              <a href="./catalogo.html" class="botao text-center mb-3">Interdisciplinares</a>
+            <div
+              class="col-6 col-lg-3 d-flex flex-column justify-content-between"
+            >
+              <img
+                src="./_imagens/interdisciplinares.jpg"
+                alt="Pessoa escrevendo em post-its"
+                class="foto img-fluid my-3"
+              />
+              <a href="./catalogo.html" class="botao text-center mb-3"
+                >Interdisciplinares</a
+              >
             </div>
           </div>
         </div>
@@ -197,7 +253,7 @@
       integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
       crossorigin="anonymous"
     ></script>
-
+    <script src="./_javascript/modal.js"></script>
     <script src="./_javascript/script.js"></script>
   </body>
 </html>
