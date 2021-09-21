@@ -2,11 +2,6 @@
     background-color: #98BFE5;
 }
 
-.img-cadastro {
-    background-image: url(../_imagens/cadastro.jpg);
-    background-size: cover;
-}
-
 .cursos .foto {
     height: 150px;
     overflow: hidden;

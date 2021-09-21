@@ -6,3 +6,5 @@ hamburger.addEventListener("click", function() {
     hamburger.classList.toggle("open");
     navMobile.classList.toggle("closed");
 })
+
+

@@ -146,7 +146,7 @@ h2 {
 
 .botao:hover {
     color: #E89548;
-    background-color: #F4D35E;;
+    background-color: #F4D35E;
     border: 1px solid #E89548;
     box-shadow: 1px 1px 0 #E89548;
 }
@@ -161,6 +161,27 @@ a.botao {
 }
 /* BOTAO END  */
 
+/* BOTAO SECUNDARIO start  */
+.botao-secundario {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    background-color: white;
+    color: #E89548;
+    border: 1px solid #E89548;
+    padding: 0.7rem 2rem;
+    border-radius: 40px;
+    box-shadow: 1px 1px 0 #E89548;
+    transition: 0.3s;
+}
+
+.botao-secundario:hover {
+    background-color: #F4D35E;
+    border: 1px solid #E89548;
+    box-shadow: 1px 1px 0 #E89548;
+}
+
+/* BOTAO SECUNDARIO end  */
+
 /* CARD start  */
 
 .card.foto{
@@ -170,6 +191,12 @@ a.botao {
 
 /* CARD end  */
 
+/* LABEL start  */
+.campo-obrigatorio {
+    color: #E89548;
+}
+
+/* LABEL end  */
 /* INPUT start  */
 .custom-input {
     border: 1px solid #101D42;
@@ -305,7 +332,7 @@ footer {
 
 /* ------FOOTER end------ */
 
-@media (max-width: 830px) {
+@media (max-width: 768px) {
 
     /* ------NAV start------ */
     .nav-links {
@@ -331,7 +358,7 @@ footer {
         box-shadow: 2px 1px 0 black;
     }
     .nav-links.closed {  
-        transform: translate(0, -400px);
+        transform: translate(400px, 0);
         opacity: 0;
     }
 
