@@ -10,7 +10,7 @@
 body {
     font-family: 'Ubuntu', sans-serif;
     color: #101D42;
-    background-image: url(../_imagens/textura-fundo.png);
+    background-image: url(../images/textura-fundo.png);
     background-size: contain;
     background-blend-mode: hard-light;
 }
@@ -86,7 +86,7 @@ nav {
 
 .busca-container::after{
     content: " ";
-    background-image: url(../_imagens/search.png);
+    background-image: url(../images/search.png);
     background-size: contain;
     width: 16px;
     height: 16px;
@@ -98,7 +98,7 @@ nav {
 
 .login::before {
     content: " ";
-    background-image: url(../_imagens/user.png);
+    background-image: url(../images/user.png);
     background-size: 1em;
     width: 1em;
     height: 1em;
@@ -451,4 +451,3 @@ footer {
 
     
 } 
-
