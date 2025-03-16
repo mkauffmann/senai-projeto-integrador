@@ -12,19 +12,19 @@
         <p><i class="bi bi-envelope-fill"></i> contato@ciclobasico.com.br</p>
         <p><i class="bi bi-telephone-fill"></i> (11) 5555-5555</p>
         <ul class="redes-sociais redes-sociais-footer">
-          <li><a href=""><i class="bi bi-facebook"></i></a></li>
-          <li><a href=""><i class="bi bi-instagram"></i></a> </li>
-          <li><a href=""><i class="bi bi-twitter"></i></a></li>
-          <li><a href=""><i class="bi bi-linkedin"></i></a></li>
+          <li><a href="#"><i class="bi bi-facebook"></i></a></li>
+          <li><a href="#"><i class="bi bi-instagram"></i></a></li>
+          <li><a href="#"><i class="bi bi-twitter"></i></a></li>
+          <li><a href="#"><i class="bi bi-linkedin"></i></a></li>
         </ul> 
       </div>
       <div class="footer-nav">
         <ul class="footer-nav-items">
           <div class="footer-nav-links">
-            <li class="nav-item"><a href="./catalogo.html">Catálogo</a></li>
-            <li class="nav-item"><a href="./sobre.html">Sobre</a></li>
-            <li class="nav-item"><a href="./contato.html">Contato</a></li>
-            <li class="nav-item"><a href="./login.html">Entrar</a></li>
+            <li class="nav-item"><router-link to="/catalogo">Catálogo</router-link></li>
+            <li class="nav-item"><router-link to="/sobre">Sobre</router-link></li>
+            <li class="nav-item"><router-link to="/contato">Contato</router-link></li>
+            <li class="nav-item"><router-link to="/login">Entrar</router-link></li>
           </div>
           <li class="nav-item busca-footer">
             <input
@@ -39,7 +39,7 @@
     </div>
     <div class="footer-copy d-none d-sm-block mt-5">
       <em>
-        2021 - Projeto Integrador - Curso Técnico de Informática para Internet
+        2023 - Projeto Integrador - Curso Técnico de Informática para Internet
         - SENAI/SP</em>
     </div>
   </footer>
