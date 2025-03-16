@@ -24,7 +24,7 @@
               instituições públicas brasileiras. Nossa missão é promover a
               educação pública, gratuita e de qualidade.
             </p>
-            <a href="./sobre.html" class="link">Saiba mais</a>
+            <router-link to="/sobre" class="link">Saiba mais</router-link>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
               alt="Borboleta"
               class="foto img-fluid my-3"
             />
-            <a href="./catalogo.html" class="botao text-center mb-3">Biológicas</a>
+            <router-link to="/catalogo?categoria=biologicas" class="botao text-center mb-3">Biológicas</router-link>
           </div>
           <div class="col-6 col-lg-3 d-flex flex-column justify-content-between">
             <img
@@ -66,7 +66,7 @@
               alt="Calculadora em uma mesa"
               class="foto img-fluid my-3"
             />
-            <a href="./catalogo.html" class="botao text-center mb-3">Exatas</a>
+            <router-link to="/catalogo?categoria=exatas" class="botao text-center mb-3">Exatas</router-link>
           </div>
           <div class="col-6 col-lg-3 d-flex flex-column justify-content-between">
             <img
@@ -74,7 +74,7 @@
               alt="Livro aberto"
               class="foto img-fluid my-3"
             />
-            <a href="./catalogo.html" class="botao text-center mb-3">Humanas</a>
+            <router-link to="/catalogo?categoria=humanas" class="botao text-center mb-3">Humanas</router-link>
           </div>
           <div class="col-6 col-lg-3 d-flex flex-column justify-content-between">
             <img
@@ -82,7 +82,7 @@
               alt="Pessoa escrevendo em post-its"
               class="foto img-fluid my-3"
             />
-            <a href="./catalogo.html" class="botao text-center mb-3">Interdisciplinares</a>
+            <router-link to="/catalogo?categoria=interdisciplinares" class="botao text-center mb-3">Interdisciplinares</router-link>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
         </div>
         <div class="row text-center mt-3">
           <h5>Sua instituição quer fazer parte?</h5>
-          <p><a href="./contato.html">Entre em contato conosco.</a></p>
+          <p><router-link to="/contato">Entre em contato conosco.</router-link></p>
         </div>
       </div>
     </section>
@@ -125,22 +125,28 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const modalAberto = ref(false);
 
 function abrirModal() {
   modalAberto.value = true;
+  // Também podemos adicionar funcionalidades adicionais aqui, como bloquear o scroll da página
+  document.body.style.overflow = 'hidden';
 }
 
 function fecharModal() {
   modalAberto.value = false;
+  // Restaurar o scroll da página
+  document.body.style.overflow = 'auto';
 }
 
 function redirecionarParaCadastro() {
-  window.location.href = 'login.html#form-cadastro';
+  router.push('/login?cadastro=true');
 }
 </script>
 
 <style scoped>
-/* Não precisamos de estilos aqui, pois estamos usando os estilos dos arquivos CSS originais */
+/* Estilos específicos para o modal, se necessário */
 </style> 

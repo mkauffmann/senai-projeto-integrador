@@ -2,34 +2,73 @@
   <main>
     <!-- form contato begin  -->
     <div class="container my-5">
-      <form>
+      <form @submit.prevent="enviarFormulario">
         <div class="row">
           <h2 class="text-center mb-3">Fale conosco</h2>
           <div class="col-12 col-md-6 mt-4">
             <div class="mb-3">
               <label for="nome" class="form-label">Nome</label>
-              <input type="text" placeholder="Digite seu nome completo" class="form-control custom-input" id="nome">
+              <input 
+                type="text" 
+                placeholder="Digite seu nome completo" 
+                class="form-control custom-input" 
+                id="nome" 
+                v-model="formData.nome"
+                @blur="validarNome"
+              >
+              <div class="text-danger" v-if="erros.nome">Nome inválido</div>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" placeholder="Digite seu email" class="form-control custom-input" id="email" aria-describedby="emailHelp">
+              <input 
+                type="email" 
+                placeholder="Digite seu email" 
+                class="form-control custom-input" 
+                id="email" 
+                aria-describedby="emailHelp" 
+                v-model="formData.email"
+              >
             </div>
             <div class="mb-3">
               <label for="telefone" class="form-label">Telefone</label>
-              <input type="text" placeholder="DDD + Telefone" class="form-control custom-input" id="telefone">
+              <input 
+                type="text" 
+                placeholder="DDD + Telefone" 
+                class="form-control custom-input" 
+                id="telefone" 
+                v-model="formData.telefone"
+                @blur="validarTelefone"
+              >
+              <div class="text-danger" v-if="erros.telefone">Telefone inválido (Ex: 11 91234-5678)</div>
             </div>
           </div>
           <div class="col-12 col-md-6 d-flex flex-column mt-4">
             <div class="mb-3">
               <label for="assunto" class="form-label">Assunto</label>
-              <input type="text" placeholder="Digite o assunto" class="form-control custom-input" id="assunto">
+              <input 
+                type="text" 
+                placeholder="Digite o assunto" 
+                class="form-control custom-input" 
+                id="assunto" 
+                v-model="formData.assunto"
+              >
             </div>
             <div class="mb-3">
               <label for="mensagem" class="form-label">Mensagem</label>
-              <textarea class="form-control custom-input" id="mensagem" placeholder="Escreva sua mensagem" rows="3"></textarea>
+              <textarea 
+                class="form-control custom-input" 
+                id="mensagem" 
+                placeholder="Escreva sua mensagem" 
+                rows="3" 
+                v-model="formData.mensagem"
+              ></textarea>
             </div>
             <div class="col-auto align-self-end">
-              <button type="submit" class="botao mb-3">Enviar</button>
+              <button 
+                type="submit" 
+                class="botao mb-3" 
+                :disabled="!formValido"
+              >Enviar</button>
             </div>
           </div>
         </div>
@@ -64,9 +103,53 @@
 </template>
 
 <script setup lang="ts">
-// Sem lógica JavaScript específica necessária para este componente
+import { reactive, computed } from 'vue';
+import { validaNome, validaTelefone } from '@/utils/formValidator';
+
+const formData = reactive({
+  nome: '',
+  email: '',
+  telefone: '',
+  assunto: '',
+  mensagem: ''
+});
+
+const erros = reactive({
+  nome: false,
+  telefone: false
+});
+
+function validarNome() {
+  erros.nome = formData.nome !== '' && !validaNome(formData.nome);
+}
+
+function validarTelefone() {
+  erros.telefone = formData.telefone !== '' && !validaTelefone(formData.telefone);
+}
+
+const formValido = computed(() => {
+  // Verificar se todos os campos obrigatórios estão preenchidos e sem erros
+  return (
+    formData.nome !== '' && 
+    formData.email !== '' && 
+    formData.assunto !== '' && 
+    formData.mensagem !== '' &&
+    !erros.nome &&
+    !erros.telefone
+  );
+});
+
+function enviarFormulario() {
+  console.log('Formulário enviado:', formData);
+  // Aqui você implementaria a lógica para enviar o formulário para o backend
+  alert('Formulário enviado com sucesso!');
+  // Limpar o formulário após envio
+  Object.keys(formData).forEach(key => {
+    formData[key as keyof typeof formData] = '';
+  });
+}
 </script>
 
 <style scoped>
-/* Não precisamos de estilos aqui, pois estamos usando os estilos dos arquivos CSS originais */
+/* Garanta que não haja estilos que interfiram com o layout global */
 </style> 
