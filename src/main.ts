@@ -8,6 +8,7 @@ import './assets/css/shared.css'
 import './assets/css/home.css'
 import './assets/css/modal.css'
 import './assets/css/catalogo.css'
+import './assets/css/sobre.css'
 
 // Importando o Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'

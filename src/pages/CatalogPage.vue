@@ -10,7 +10,7 @@
             <div class="card-body text-center">
               <h5 class="card-title">{{ curso.titulo }}</h5>
               <p class="card-text">{{ curso.descricao }}</p>
-              <router-link to="/curso" class="link">Ver curso</router-link>
+              <router-link :to="`/curso/${curso.id}`" class="link">Ver curso</router-link>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
             <div class="card-body text-center">
               <h5 class="card-title">{{ curso.titulo }}</h5>
               <p class="card-text">{{ curso.descricao }}</p>
-              <router-link to="/curso" class="link">Ver curso</router-link>
+              <router-link :to="`/curso/${curso.id}`" class="link">Ver curso</router-link>
             </div>
           </div>
         </div>
