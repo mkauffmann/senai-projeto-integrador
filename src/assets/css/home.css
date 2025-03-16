@@ -1,1 +1,9 @@
- 
+.cadastro {
+    background-color: #98BFE5;
+}
+
+.cursos .foto {
+    height: 150px;
+    overflow: hidden;
+    object-fit: cover;
+} 

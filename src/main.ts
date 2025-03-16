@@ -1,10 +1,18 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
+import router from './router'
+
+// Importando os estilos CSS originais
+import './assets/css/shared.css'
+import './assets/css/home.css'
+import './assets/css/modal.css'
 
 // Importando o Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import 'bootstrap'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
-createApp(App).mount('#app')
+createApp(App)
+  .use(router)
+  .mount('#app')
