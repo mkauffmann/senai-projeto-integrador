@@ -65,25 +65,23 @@
 							<div class="form-text text-danger" v-if="erros.nome">Nome inválido</div>
 						</div>
 						<div class="col-12 col-md-6 mb-3">
-							<label for="cpf" class="form-label"
-								>CPF<span class="campo-obrigatorio">*</span></label
+							<label for="sobrenome" class="form-label"
+								>Sobrenome<span class="campo-obrigatorio">*</span></label
 							>
 							<input
 								type="text"
-								name="cpf"
-								id="cpf"
+								name="sobrenome"
+								id="sobrenome"
 								class="form-control custom-input"
-								placeholder="Digite seu CPF"
-								v-model="cadastroData.cpf"
-								@blur="validarCpf"
+								placeholder="Digite seu sobrenome"
+								v-model="cadastroData.sobrenome"
 								required
 							/>
-							<div class="form-text text-danger" v-if="erros.cpf">CPF inválido</div>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-12 col-md-6 mb-3">
-							<label for="telefone" class="form-label">Telefone</label>
+							<label for="username" class="form-label"></label>
 							<input
 								type="text"
 								name="telefone"
