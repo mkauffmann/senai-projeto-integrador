@@ -47,4 +47,4 @@
 
 <style scoped>
 /* Os estilos agora vêm do arquivo shared.css */
-</style>
+</style> 

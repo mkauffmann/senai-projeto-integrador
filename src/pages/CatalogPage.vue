@@ -97,6 +97,7 @@ const cursosRecomendados = ref([
 		descricao: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
 		imagem: "/src/assets/images/java.png",
 	},
+
 ]);
 
 // Reutilizando os mesmos dados para cursos novos (em um projeto real, estes seriam diferentes)
@@ -105,11 +106,11 @@ const cursosNovos = ref([...cursosRecomendados.value]);
 
 <style scoped>
 .card-text {
-	font-size: 0.8rem;
-	color: #444;
+  font-size: 0.8rem;
+  color: #444;
 }
 
 .card {
-	height: 350px;
+  height: 350px;
 }
-</style>
+</style> 

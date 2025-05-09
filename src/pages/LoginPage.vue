@@ -284,161 +284,161 @@ const cadastroSection = ref<HTMLElement | null>(null);
 
 // Dados para o formulário de login
 const loginData = reactive({
-	email: "",
-	senha: "",
+  email: '',
+  senha: ''
+
 });
 
 // Dados para o formulário de cadastro
 const cadastroData = reactive({
-	nome: "",
-	cpf: "",
-	telefone: "",
-	celular: "",
-	cep: "",
-	logradouro: "",
-	numero: "",
-	complemento: "",
-	bairro: "",
-	cidade: "",
-	estado: "",
-	senha: "",
-	senhaConfirmar: "",
+  nome: '',
+  cpf: '',
+  telefone: '',
+  celular: '',
+  cep: '',
+  logradouro: '',
+  numero: '',
+  complemento: '',
+  bairro: '',
+  cidade: '',
+  estado: '',
+  senha: '',
+  senhaConfirmar: ''
 });
 
 // Controle de erros de validação
 const erros = reactive({
-	nome: false,
-	cpf: false,
-	telefone: false,
-	celular: false,
-	cep: false,
-	senha: false,
+  nome: false,
+  cpf: false,
+  telefone: false,
+  celular: false,
+  cep: false,
+  senha: false
 });
 
 // Verificar se o formulário está válido
 const formValido = computed(() => {
-	// Campos obrigatórios preenchidos e sem erros
-	return (
-		cadastroData.nome !== "" &&
-		cadastroData.cpf !== "" &&
-		cadastroData.celular !== "" &&
-		cadastroData.cep !== "" &&
-		cadastroData.logradouro !== "" &&
-		cadastroData.numero !== "" &&
-		cadastroData.senha !== "" &&
-		cadastroData.senhaConfirmar !== "" &&
-		!erros.nome &&
-		!erros.cpf &&
-		!erros.telefone &&
-		!erros.celular &&
-		!erros.cep &&
-		!erros.senha
-	);
+  // Campos obrigatórios preenchidos e sem erros
+  return (
+    cadastroData.nome !== '' &&
+    cadastroData.cpf !== '' &&
+    cadastroData.celular !== '' &&
+    cadastroData.cep !== '' &&
+    cadastroData.logradouro !== '' &&
+    cadastroData.numero !== '' &&
+    cadastroData.senha !== '' &&
+    cadastroData.senhaConfirmar !== '' &&
+    !erros.nome &&
+    !erros.cpf &&
+    !erros.telefone &&
+    !erros.celular &&
+    !erros.cep &&
+    !erros.senha
+  );
 });
 
 // Funções de validação
 function validarNome() {
-	erros.nome = cadastroData.nome !== "" && !validaNome(cadastroData.nome);
+  erros.nome = cadastroData.nome !== '' && !validaNome(cadastroData.nome);
 }
 
 function validarCpf() {
-	erros.cpf = cadastroData.cpf !== "" && !validaCpf(cadastroData.cpf);
+  erros.cpf = cadastroData.cpf !== '' && !validaCpf(cadastroData.cpf);
 }
 
 function validarTelefone() {
-	erros.telefone = cadastroData.telefone !== "" && !validaTelefone(cadastroData.telefone);
+  erros.telefone = cadastroData.telefone !== '' && !validaTelefone(cadastroData.telefone);
 }
 
 function validarCelular() {
-	erros.celular = cadastroData.celular !== "" && !validaCelular(cadastroData.celular);
+  erros.celular = cadastroData.celular !== '' && !validaCelular(cadastroData.celular);
 }
 
 function validarSenha() {
-	erros.senha =
-		cadastroData.senha !== "" && !validaSenha(cadastroData.senha, cadastroData.senhaConfirmar);
+  erros.senha = cadastroData.senha !== '' && !validaSenha(cadastroData.senha, cadastroData.senhaConfirmar);
 }
 
 // Buscar endereço pelo CEP
 async function buscarCep() {
-	if (cadastroData.cep.length !== 8) {
-		erros.cep = true;
-		limparEndereco();
-		return;
-	}
+  if (cadastroData.cep.length !== 8) {
+    erros.cep = true;
+    limparEndereco();
+    return;
+  }
 
-	try {
-		const endereco = await buscaCep(cadastroData.cep);
-		cadastroData.logradouro = endereco.logradouro;
-		cadastroData.bairro = endereco.bairro;
-		cadastroData.cidade = endereco.localidade;
-		cadastroData.estado = endereco.uf;
-		erros.cep = false;
-	} catch (error) {
-		erros.cep = true;
-		limparEndereco();
-		alert("CEP não encontrado");
-	}
+  try {
+    const endereco = await buscaCep(cadastroData.cep);
+    cadastroData.logradouro = endereco.logradouro;
+    cadastroData.bairro = endereco.bairro;
+    cadastroData.cidade = endereco.localidade;
+    cadastroData.estado = endereco.uf;
+    erros.cep = false;
+  } catch (error) {
+    erros.cep = true;
+    limparEndereco();
+    alert('CEP não encontrado');
+  }
 }
 
 function limparEndereco() {
-	cadastroData.logradouro = "";
-	cadastroData.bairro = "";
-	cadastroData.cidade = "";
-	cadastroData.estado = "";
+  cadastroData.logradouro = '';
+  cadastroData.bairro = '';
+  cadastroData.cidade = '';
+  cadastroData.estado = '';
 }
 
 function validarFormulario() {
-	validarNome();
-	validarCpf();
-	validarTelefone();
-	validarCelular();
-	validarSenha();
-
-	if (formValido.value) {
-		alert("Campos validados!");
-	} else {
-		alert("Campos preenchidos incorretamente");
-	}
+  validarNome();
+  validarCpf();
+  validarTelefone();
+  validarCelular();
+  validarSenha();
+  
+  if (formValido.value) {
+    alert('Campos validados!');
+  } else {
+    alert('Campos preenchidos incorretamente');
+  }
 }
 
 function limparFormulario() {
-	Object.keys(cadastroData).forEach((key) => {
-		cadastroData[key as keyof typeof cadastroData] = "";
-	});
-
-	Object.keys(erros).forEach((key) => {
-		erros[key as keyof typeof erros] = false;
-	});
+  Object.keys(cadastroData).forEach(key => {
+    cadastroData[key as keyof typeof cadastroData] = '';
+  });
+  
+  Object.keys(erros).forEach(key => {
+    erros[key as keyof typeof erros] = false;
+  });
 }
 
 function fazerLogin() {
-	// Simulação de login
-	console.log("Dados de login:", loginData);
-	alert("Login realizado com sucesso!");
-	// Limpar o formulário
-	loginData.email = "";
-	loginData.senha = "";
+  // Simulação de login
+  console.log('Dados de login:', loginData);
+  alert('Login realizado com sucesso!');
+  // Limpar o formulário
+  loginData.email = '';
+  loginData.senha = '';
 }
 
 function cadastrar() {
-	// Simulação de cadastro
-	console.log("Dados de cadastro:", cadastroData);
-	alert("Cadastro realizado com sucesso!");
-	// Limpar o formulário
-	limparFormulario();
+  // Simulação de cadastro
+  console.log('Dados de cadastro:', cadastroData);
+  alert('Cadastro realizado com sucesso!');
+  // Limpar o formulário
+  limparFormulario();
 }
 
 // Se houver um parâmetro "cadastro=true" na URL, rolar até a seção de cadastro
 onMounted(() => {
-	if (route.query.cadastro === "true" && cadastroSection.value) {
-		cadastroSection.value.scrollIntoView({behavior: "smooth", block: "start"});
-	}
+  if (route.query.cadastro === 'true' && cadastroSection.value) {
+    cadastroSection.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 });
 </script>
 
 <style scoped>
 .campo-obrigatorio {
-	color: red;
-	margin-left: 2px;
+  color: red;
+  margin-left: 2px;
 }
-</style>
+</style> 

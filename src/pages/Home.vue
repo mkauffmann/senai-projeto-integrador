@@ -149,22 +149,24 @@ const router = useRouter();
 const modalAberto = ref(false);
 
 function abrirModal() {
-	modalAberto.value = true;
-	// Também podemos adicionar funcionalidades adicionais aqui, como bloquear o scroll da página
-	document.body.style.overflow = "hidden";
+  modalAberto.value = true;
+  // Também podemos adicionar funcionalidades adicionais aqui, como bloquear o scroll da página
+  document.body.style.overflow = 'hidden';
 }
 
 function fecharModal() {
-	modalAberto.value = false;
-	// Restaurar o scroll da página
-	document.body.style.overflow = "auto";
+  modalAberto.value = false;
+  // Restaurar o scroll da página
+  document.body.style.overflow = 'auto';
 }
 
 function redirecionarParaCadastro() {
-	router.push("/login?cadastro=true");
+  router.push('/login?cadastro=true');
+
 }
 </script>
 
 <style scoped>
 /* Estilos específicos para o modal, se necessário */
-</style>
+</style> 
+
