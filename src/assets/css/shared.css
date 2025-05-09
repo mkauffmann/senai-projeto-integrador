@@ -83,7 +83,6 @@ nav {
     border-radius: 3px;
 }
 
-
 .busca-container::after{
     content: " ";
     background-image: url(../images/search.png);
@@ -107,7 +106,6 @@ nav {
     margin-left: -1.3em;
     margin-top: 2px;
 }
-
 
 /* ------NAV end------ */
 
@@ -188,12 +186,12 @@ a.botao {
     max-width: 240px;
 }
 
-
 /* CARD end  */
 
 /* LABEL start  */
 .campo-obrigatorio {
     color: #E89548;
+
 }
 
 /* LABEL end  */
@@ -224,7 +222,6 @@ a.link:hover {
 
 /* PARCEIROS start  */
 
-
 .logos-parceiros {
     max-height: 210px;
     max-width: 140px;
@@ -232,7 +229,6 @@ a.link:hover {
     overflow: hidden;
     margin-bottom: 1rem;
 }
-
 
 /* PARCEIROS end  */
 
@@ -448,6 +444,5 @@ footer {
         margin-top: 1em;
     }
     /* ------FOOTER end------ */
-
     
 } 

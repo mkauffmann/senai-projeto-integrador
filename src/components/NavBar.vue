@@ -7,7 +7,6 @@
         alt="Ciclo Básico"
       />
     </router-link>
-
     <ul class="nav-items">
       <div class="nav-links" :class="{ closed: !isMobileMenuOpen }">
         <li class="nav-item"><router-link to="/catalogo">Catálogo</router-link></li>
