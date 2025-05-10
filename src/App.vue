@@ -15,6 +15,5 @@ import FooterBar from './components/FooterBar.vue'
 /* Estilos globais já são importados no main.ts */
 .app-container {
   max-width: 100%;
-  overflow-x: hidden;
 }
 </style>

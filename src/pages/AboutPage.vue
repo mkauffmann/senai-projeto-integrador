@@ -2,120 +2,146 @@
 	<main>
 		<div class="container">
 			<div class="row my-5">
-				<div class="col-12">
-					<form id="form-cadastro-curso">
-						<div class="row mb-3 align-items-center">
-							<label for="nomeDoCurso" class="col-3 form-label fw-bold">Nome do Curso</label>
-							<div class="col-9">
-								<input type="text" class="form-control" id="nomeDoCurso" required />
-							</div>
-						</div>
-						<div class="row mb-3">
-							<label for="descricaoCurso" class="col-3 form-label fw-bold">Descrição</label>
-							<div class="col-9">
-								<textarea
-									class="form-control"
-									id="descricaoCurso"
-									rows="3"
-									required
-								></textarea>
-							</div>
-						</div>
-						<button type="submit" class="btn btn-primary">Salvar Curso</button>
-					</form>
-					<table class="table mt-4">
-						<thead>
-							<tr>
-								<th>Nome do Curso</th>
-								<th>Descrição</th>
-								<th>Ações</th>
-							</tr>
-						</thead>
-						<tbody id="tabelaCursos">
-							<tr data-curso-id="1">
-								<td>Frontend</td>
-								<td>Curso completo de desenvolvimento frontend.</td>
-								<td>
-									<button class="btn btn-sm btn-warning">
-										<i class="bi bi-pencil"></i>
-									</button>
-									<button class="btn btn-sm btn-danger">
-										<i class="bi bi-trash"></i>
-									</button>
-									<button
-										class="btn btn-sm btn-info btn-toggle-modulos"
-										data-bs-toggle="collapse"
-										data-bs-target="#modulos-curso-1"
-									>
-										Módulos <i class="bi bi-chevron-down"></i>
-									</button>
-								</td>
-							</tr>
-							<tr class="collapse" id="modulos-curso-1">
-								<td colspan="3">
-									<div class="modulos-container">
-										<div class="card mb-3" data-modulo-id="1">
-											<div class="card-header d-flex justify-content-between">
-												<h5>HTML</h5>
-												<div>
-													<button
-														class="btn btn-sm btn-success btn-add-aula"
-														data-modulo-id="1"
-													>
-														<i class="bi bi-plus"></i> Aula
-													</button>
-													<button class="btn btn-sm btn-primary btn-editar-modulo">
-														<i class="bi bi-pencil"></i>
-													</button>
-													<button class="btn btn-sm btn-danger btn-excluir-modulo">
-														<i class="bi bi-trash"></i>
-													</button>
-												</div>
-											</div>
-											<div class="card-body">
-												<div class="row row-cols-3 g-1">
-													<div class="col" data-aula-id="1">
-														<div class="card h-100">
-															<div class="card-body">
-																<h6 class="card-title">Criando Divs</h6>
-																<a
-																	href="#"
-																	class="btn btn-sm btn-outline-primary mb-2"
-																>
-																	<i class="bi bi-play-fill"></i> Assistir
-																</a>
-																<p class="card-text">
-																	Aprenda a criar divs e estruturar seu HTML.
-																</p>
-															</div>
-															<div class="card-footer">
-																<button
-																	class="btn btn-sm btn-warning btn-editar-aula"
-																>
-																	<i class="bi bi-pencil"></i>
-																</button>
-																<button
-																	class="btn btn-sm btn-danger btn-excluir-aula"
-																>
-																	<i class="bi bi-trash"></i>
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<button class="btn btn-success btn-add-modulo" data-curso-id="1">
-											<i class="bi bi-plus"></i> Adicionar Módulo
-										</button>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<div class="col-12 foto-campus-container">
+					<img
+						class="img-fluid foto foto-campus"
+						src="@/assets/images/estudantes-campus.jpg"
+						alt="Estudantes no campus"
+					/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<h2>Sobre o Eduteck</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum quibusdam
+						cupiditate possimus quidem unde? Animi cupiditate iste aliquam, mollitia corrupti
+						amet modi iusto, ducimus maxime, facilis minus! Praesentium, reprehenderit ea.
+					</p>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde minus dicta quasi
+						distinctio harum saepe, reprehenderit quaerat id molestias quisquam, eligendi quas
+						sed! Facere, culpa omnis consequuntur sunt ea dignissimos!
+					</p>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque fugiat
+						nesciunt nisi neque dignissimos. At maxime error nam, modi recusandae quos,
+						doloribus natus quae corporis, rerum perferendis suscipit. Dolorum, laborum.
+					</p>
+				</div>
+				<div class="col-12 col-md-8">
+					<iframe
+						src="https://www.youtube.com/watch?v=qaNPr9gcr1g"
+						title="YouTube video player"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen
+					></iframe>
+				</div>
+			</div>
+			<div class="row my-5">
+				<h3 class="text-center mb-4">Quem somos</h3>
+				<div class="col-12 col-md-6 col-lg-3 mb-3 text-center">
+					<div class="container-foto-pessoa lg-3 mb-3 mx-auto foto">
+						<img src="@/assets/images/quem-somos-1.jpg" alt="Foto de pessoa 1" />
+					</div>
+					<div class="descricao-pessoa">
+						<h4>Fulana de Tal</h4>
+						<h5>CEO</h5>
+						<p>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore numquam eius
+							natus a, ipsum quis molestias consequuntur! Dolorum perspiciatis blanditiis
+							saepe non doloribus unde labore placeat eligendi. Tempore, corporis vel?
+						</p>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-3 mb-3 text-center">
+					<div class="container-foto-pessoa lg-3 mb-3 mx-auto foto">
+						<img
+							class="pessoa-2"
+							src="@/assets/images/quem-somos-2.jpg"
+							alt="Foto de pessoa 2"
+						/>
+					</div>
+					<div class="descricao-pessoa">
+						<h4>Siclana Gomes</h4>
+						<h5>Coordenação Técnica</h5>
+						<p>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore numquam eius
+							natus a, ipsum quis molestias consequuntur! Dolorum perspiciatis blanditiis
+							saepe non doloribus unde labore placeat eligendi. Tempore, corporis vel?
+						</p>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-3 mb-3 text-center">
+					<div class="container-foto-pessoa lg-3 mb-3 mx-auto foto">
+						<img
+							class="pessoa-3"
+							src="@/assets/images/quem-somos-3.jpg"
+							alt="Foto de pessoa 3"
+						/>
+					</div>
+					<div class="descricao-pessoa">
+						<h4>Beltrana Teixeira</h4>
+						<h5>Coordenação Pedagógica</h5>
+						<p>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore numquam eius
+							natus a, ipsum quis molestias consequuntur! Dolorum perspiciatis blanditiis
+							saepe non doloribus unde labore placeat eligendi. Tempore, corporis vel?
+						</p>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-3 mb-3 text-center">
+					<div class="container-foto-pessoa lg-3 mb-3 mx-auto foto">
+						<img
+							class="pessoa-4"
+							src="@/assets/images/quem-somos-4.jpg"
+							alt="Foto de pessoa 4"
+						/>
+					</div>
+					<div class="descricao-pessoa">
+						<h4>Alguém da Silva</h4>
+						<h5>Parcerias Institucionais</h5>
+						<p>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore numquam eius
+							natus a, ipsum quis molestias consequuntur! Dolorum perspiciatis blanditiis
+							saepe non doloribus unde labore placeat eligendi. Tempore, corporis vel?
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
+		<!-- parcerias logos start -->
+		<section>
+			<div class="container mt-5 parceiros">
+				<div class="row justify-content-between">
+					<h2 class="mb-3 text-center">Nossos parceiros</h2>
+					<div class="col-6 col-md-4 col-lg-2 logos-parceiros foto d-flex align-items-center">
+						<img src="@/assets/images/puc-minas.jpg" alt="Logo SENAI" class="img-fluid" />
+					</div>
+					<div class="col-6 col-md-4 col-lg-2 logos-parceiros foto d-flex align-items-center">
+						<img src="@/assets/images/cursoEmVideo.png" alt="Logo IF" class="img-fluid" />
+					</div>
+					<div class="col-6 col-md-4 col-lg-2 logos-parceiros foto d-flex align-items-center">
+						<img src="@/assets/images/rocketseat.png" alt="Logo UFABC" class="img-fluid" />
+					</div>
+					<div class="col-6 col-md-4 col-lg-2 logos-parceiros foto d-flex align-items-center">
+						<img src="@/assets/images/Alura.jpg" alt="Logo UNESP" class="img-fluid" />
+					</div>
+					<div class="col-6 col-md-4 col-lg-2 logos-parceiros foto d-flex align-items-center">
+						<img src="@/assets/images/harvard.png" alt="Logo Unicamp" class="img-fluid" />
+					</div>
+					<div class="col-6 col-md-4 col-lg-2 logos-parceiros foto d-flex align-items-center">
+						<img src="@/assets/images/logo-usp.png" alt="Logo USP" class="img-fluid" />
+					</div>
+				</div>
+				<div class="row text-center mt-3">
+					<h5>Sua instituição quer fazer parte?</h5>
+					<p><router-link to="/contato">Entre em contato conosco.</router-link></p>
+				</div>
+			</div>
+		</section>
+		<!-- parcerias logos end -->
 	</main>
 </template>
 
@@ -125,43 +151,43 @@
 
 <style scoped>
 iframe {
-  width: 100%;
-  height: calc(80vw / 1.7);
+	width: 100%;
+	height: calc(80vw / 1.7);
 }
 
 .container-foto-pessoa {
-  border-radius: 50%;
-  max-width: 200px;
-  max-height: 200px;
-  overflow: hidden;
-  object-fit: cover;
-  position: relative;
+	border-radius: 50%;
+	max-width: 200px;
+	max-height: 200px;
+	overflow: hidden;
+	object-fit: cover;
+	position: relative;
 }
 
 .container-foto-pessoa img {
-  max-width: 300px;
-  position: relative;
+	max-width: 300px;
+	position: relative;
 }
 
 .pessoa-2 {
-  left: -50px;
+	left: -50px;
 }
 
 .pessoa-3 {
-  top: -40px;
-  right: 40px;
+	top: -40px;
+	right: 40px;
 }
 
 .pessoa-4 {
-  top: -100px;
-  right: 40px;
+	top: -100px;
+	right: 40px;
 }
 
 .descricao-pessoa h4 {
-  color: #E89548;
+	color: #e89548;
 }
 
 .descricao-pessoa h5 {
-  color: #98BFE5;
+	color: #98bfe5;
 }
-</style> 
+</style>
