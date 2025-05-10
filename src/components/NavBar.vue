@@ -50,9 +50,11 @@
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 
 const userStore = useUserStore();
 const router = useRouter();
+const toast = useToast();
 const isMobileMenuOpen = ref(false);
 
 function toggleMobileMenu() {
@@ -61,6 +63,7 @@ function toggleMobileMenu() {
 
 function logout() {
   userStore.logout();
+  toast.success('Logout realizado com sucesso!');
   // Redirect to home page after logout using router
   if (router.currentRoute.value.path !== '/') {
     router.push('/');

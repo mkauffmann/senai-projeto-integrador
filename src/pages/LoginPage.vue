@@ -135,10 +135,12 @@ import {ref, reactive, onMounted, computed} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {loginUser, registerUser, RegisterPayload} from "@/services/auth.service";
 import {useUserStore} from "@/stores/user";
+import {useToast} from "vue-toastification";
 
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
+const toast = useToast();
 const cadastroSection = ref<HTMLElement | null>(null);
 
 // Dados para o formulário de login
@@ -215,7 +217,7 @@ async function fazerLogin() {
     userStore.setToken(response.access_token);
     
     // Show success message
-    alert('Login realizado com sucesso!');
+    toast.success('Login realizado com sucesso!');
     
     // Navigate to home page or dashboard
     router.push('/');
@@ -225,7 +227,7 @@ async function fazerLogin() {
     loginData.senha = '';
   } catch (error) {
     console.error('Erro ao fazer login:', error);
-    alert('Falha no login. Verifique suas credenciais.');
+    toast.error('Falha no login. Verifique suas credenciais.');
   }
 }
 
@@ -256,20 +258,20 @@ async function cadastrar() {
         userStore.setToken(loginResponse.access_token);
         
         // Exibir mensagem de sucesso
-        alert('Cadastro realizado com sucesso! Você está conectado.');
+        toast.success('Cadastro realizado com sucesso! Você está conectado.');
         
         // Navegar para a página inicial
         router.push('/');
       } catch (loginError) {
         console.error('Erro ao fazer login após cadastro:', loginError);
-        alert('Cadastro realizado com sucesso, mas não foi possível fazer login automático. Por favor, faça login manualmente.');
+        toast.warning('Cadastro realizado com sucesso, mas não foi possível fazer login automático. Por favor, faça login manualmente.');
       }
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
-      alert('Falha no cadastro. Por favor, tente novamente.');
+      toast.error('Falha no cadastro. Por favor, tente novamente.');
     }
   } else {
-    alert('Por favor, corrija os erros no formulário antes de continuar.');
+    toast.error('Por favor, corrija os erros no formulário antes de continuar.');
   }
 }
 
