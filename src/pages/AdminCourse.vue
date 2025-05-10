@@ -3,17 +3,18 @@
 		<div class="container">
 			<div class="row my-5">
 				<div class="col-12">
-					<form id="form-cadastro-curso">
+					<form id="form-cadastro-curso" @submit.prevent="handleCreateCourse">
 						<div class="row mb-3 align-items-center">
 							<label for="nomeDoCurso" class="col-3 form-label fw-bold">Nome do Curso</label>
 							<div class="col-9">
-								<input type="text" class="form-control" id="nomeDoCurso" required />
+								<input v-model="newCourse.name" type="text" class="form-control" id="nomeDoCurso" required />
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label for="descricaoCurso" class="col-3 form-label fw-bold">Descrição</label>
 							<div class="col-9">
 								<textarea
+									v-model="newCourse.description"
 									class="form-control"
 									id="descricaoCurso"
 									rows="3"
@@ -21,9 +22,27 @@
 								></textarea>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-primary">Salvar Curso</button>
+						<div class="row mb-3 align-items-center">
+							<label for="coverImgUrl" class="col-3 form-label fw-bold">URL da Imagem</label>
+							<div class="col-9">
+								<input v-model="newCourse.coverImgUrl" type="text" class="form-control" id="coverImgUrl" required />
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary" :disabled="courseStore.loading">
+							{{ courseStore.loading ? 'Salvando...' : 'Salvar Curso' }}
+						</button>
 					</form>
-					<table class="table mt-4">
+					<div v-if="courseStore.error" class="alert alert-danger mt-3">
+						{{ courseStore.error }}
+					</div>
+					
+					<div v-if="courseStore.loading && !courseStore.courses.length" class="mt-4 text-center">
+						<div class="spinner-border" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+					</div>
+					
+					<table class="table mt-4" v-if="courseStore.courses.length">
 						<thead>
 							<tr>
 								<th>Nome do Curso</th>
@@ -32,80 +51,33 @@
 							</tr>
 						</thead>
 						<tbody id="tabelaCursos">
-							<tr data-curso-id="1">
-								<td>Frontend</td>
-								<td>Curso completo de desenvolvimento frontend.</td>
+							<tr v-for="course in courseStore.courses" :key="course.id" :data-curso-id="course.id">
+								<td>{{ course.name }}</td>
+								<td>{{ course.description }}</td>
 								<td>
-									<button class="btn btn-sm btn-warning">
+									<button class="btn btn-sm btn-warning" @click="editCourse(course)">
 										<i class="bi bi-pencil"></i>
 									</button>
-									<button class="btn btn-sm btn-danger">
+									<button class="btn btn-sm btn-danger" @click="handleDeleteCourse(course.id)">
 										<i class="bi bi-trash"></i>
 									</button>
 									<button
 										class="btn btn-sm btn-info btn-toggle-modulos"
 										data-bs-toggle="collapse"
-										data-bs-target="#modulos-curso-1"
+										:data-bs-target="'#modulos-curso-' + course.id"
 									>
 										Módulos <i class="bi bi-chevron-down"></i>
 									</button>
 								</td>
 							</tr>
-							<tr class="collapse" id="modulos-curso-1">
+							<tr v-for="course in courseStore.courses" :key="'modules-' + course.id" class="collapse" :id="'modulos-curso-' + course.id">
 								<td colspan="3">
 									<div class="modulos-container">
-										<div class="card mb-3" data-modulo-id="1">
-											<div class="card-header d-flex justify-content-between">
-												<h5>HTML</h5>
-												<div>
-													<button
-														class="btn btn-sm btn-success btn-add-aula"
-														data-modulo-id="1"
-													>
-														<i class="bi bi-plus"></i> Aula
-													</button>
-													<button class="btn btn-sm btn-primary btn-editar-modulo">
-														<i class="bi bi-pencil"></i>
-													</button>
-													<button class="btn btn-sm btn-danger btn-excluir-modulo">
-														<i class="bi bi-trash"></i>
-													</button>
-												</div>
-											</div>
-											<div class="card-body">
-												<div class="row row-cols-3 g-1">
-													<div class="col" data-aula-id="1">
-														<div class="card h-100">
-															<div class="card-body">
-																<h6 class="card-title">Criando Divs</h6>
-																<a
-																	href="#"
-																	class="btn btn-sm btn-outline-primary mb-2"
-																>
-																	<i class="bi bi-play-fill"></i> Assistir
-																</a>
-																<p class="card-text">
-																	Aprenda a criar divs e estruturar seu HTML.
-																</p>
-															</div>
-															<div class="card-footer">
-																<button
-																	class="btn btn-sm btn-warning btn-editar-aula"
-																>
-																	<i class="bi bi-pencil"></i>
-																</button>
-																<button
-																	class="btn btn-sm btn-danger btn-excluir-aula"
-																>
-																	<i class="bi bi-trash"></i>
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+										<!-- Módulos irão aqui quando implementarmos -->
+										<div class="alert alert-info">
+											Módulos serão implementados em breve.
 										</div>
-										<button class="btn btn-success btn-add-modulo" data-curso-id="1">
+										<button class="btn btn-success btn-add-modulo" :data-curso-id="course.id">
 											<i class="bi bi-plus"></i> Adicionar Módulo
 										</button>
 									</div>
@@ -113,6 +85,10 @@
 							</tr>
 						</tbody>
 					</table>
+					
+					<div v-if="!courseStore.loading && !courseStore.courses.length" class="alert alert-info mt-4">
+						Nenhum curso encontrado. Crie um novo curso usando o formulário acima.
+					</div>
 				</div>
 			</div>
 		</div>
@@ -120,7 +96,55 @@
 </template>
 
 <script setup lang="ts">
-// Sem lógica JavaScript específica necessária para este componente
+import { ref, onMounted } from 'vue'
+import { useCourseStore } from '@/stores/course'
+import type { CreateCoursePayload } from '@/services/course.service'
+
+const courseStore = useCourseStore()
+
+const newCourse = ref<CreateCoursePayload>({
+  name: '',
+  description: '',
+  coverImgUrl: '',
+  lessons: []
+})
+
+const resetForm = () => {
+  newCourse.value = {
+    name: '',
+    description: '',
+    coverImgUrl: '',
+    lessons: []
+  }
+}
+
+const handleCreateCourse = async () => {
+  try {
+    await courseStore.addCourse(newCourse.value)
+    resetForm()
+  } catch (error) {
+    console.error('Failed to create course:', error)
+  }
+}
+
+const handleDeleteCourse = async (courseId: number) => {
+  if (confirm('Tem certeza que deseja excluir este curso?')) {
+    try {
+      await courseStore.removeCourse(courseId)
+    } catch (error) {
+      console.error('Failed to delete course:', error)
+    }
+  }
+}
+
+const editCourse = (course: any) => {
+  // Implementação futura
+  alert('Editar curso: ' + course.name)
+}
+
+onMounted(async () => {
+  await courseStore.fetchAllCourses()
+})
 </script>
 
 <style scoped>
