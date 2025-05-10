@@ -38,17 +38,17 @@
 					<div v-if="successMessage" class="alert alert-success mt-3">
 						{{ successMessage }}
 					</div>
-					
+
 					<div v-if="courseStore.error" class="alert alert-danger mt-3">
 						{{ courseStore.error }}
 					</div>
-					
+
 					<div v-if="courseStore.loading && !courseStore.courses.length" class="mt-4 text-center">
 						<div class="spinner-border" role="status">
 							<span class="visually-hidden">Loading...</span>
 						</div>
 					</div>
-					
+
 					<table class="table mt-4" v-if="courseStore.courses.length">
 						<thead>
 							<tr>
@@ -62,16 +62,18 @@
 								<td>{{ course.name }}</td>
 								<td>{{ course.description }}</td>
 								<td>
-									<button class="btn btn-sm btn-warning" @click="editCourse(course)">
+									<button class="btn btn-sm btn-warning" @click="editCourse(course)" :disabled="deletingCourseIds.has(course.id)">
 										<i class="bi bi-pencil"></i>
 									</button>
-									<button class="btn btn-sm btn-danger" @click="handleDeleteCourse(course.id)">
-										<i class="bi bi-trash"></i>
+									<button class="btn btn-sm btn-danger" @click="handleDeleteCourse(course.id)" :disabled="deletingCourseIds.has(course.id)">
+										<span v-if="deletingCourseIds.has(course.id)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+										<i v-else class="bi bi-trash"></i>
 									</button>
 									<button
 										class="btn btn-sm btn-info btn-toggle-modulos"
 										data-bs-toggle="collapse"
 										:data-bs-target="'#modulos-curso-' + course.id"
+										:disabled="deletingCourseIds.has(course.id)"
 									>
 										Módulos <i class="bi bi-chevron-down"></i>
 									</button>
@@ -92,7 +94,7 @@
 							</tr>
 						</tbody>
 					</table>
-					
+
 					<div v-if="!courseStore.loading && !courseStore.courses.length" class="alert alert-info mt-4">
 						Nenhum curso encontrado. Crie um novo curso usando o formulário acima.
 					</div>
@@ -103,13 +105,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { useCourseStore } from '@/stores/course'
 import type { CreateCoursePayload } from '@/services/course.service'
 
 const courseStore = useCourseStore()
 const isSubmitting = ref(false)
 const successMessage = ref('')
+const deletingCourseIds = reactive(new Set<number>())
 
 const newCourse = ref<CreateCoursePayload>({
   name: '',
@@ -131,12 +134,12 @@ const handleCreateCourse = async () => {
   try {
     isSubmitting.value = true
     successMessage.value = ''
-    
+
     await courseStore.addCourse(newCourse.value)
-    
+
     successMessage.value = 'Curso criado com sucesso!'
     resetForm()
-    
+
     // Limpa a mensagem de sucesso após 5 segundos
     setTimeout(() => {
       successMessage.value = ''
@@ -151,9 +154,18 @@ const handleCreateCourse = async () => {
 const handleDeleteCourse = async (courseId: number) => {
   if (confirm('Tem certeza que deseja excluir este curso?')) {
     try {
+      deletingCourseIds.add(courseId)
       await courseStore.removeCourse(courseId)
+      successMessage.value = 'Curso excluído com sucesso!'
+
+      // Limpa a mensagem de sucesso após 5 segundos
+      setTimeout(() => {
+        successMessage.value = ''
+      }, 2500)
     } catch (error) {
       console.error('Failed to delete course:', error)
+    } finally {
+      deletingCourseIds.delete(courseId)
     }
   }
 }
@@ -209,4 +221,4 @@ iframe {
 .descricao-pessoa h5 {
   color: #98BFE5;
 }
-</style> 
+</style>
