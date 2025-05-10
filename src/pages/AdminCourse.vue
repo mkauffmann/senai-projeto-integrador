@@ -119,16 +119,16 @@
 										</button>
 										<button
 											class="btn btn-sm btn-info btn-toggle-modulos"
-											data-bs-toggle="collapse"
-											:data-bs-target="'#aulas-curso-' + course.id"
+											@click="toggleLessonsSection(course.id)"
 											:disabled="deletingCourseIds.has(course.id) || editingCourseId !== null"
 										>
-											Aulas <i class="bi bi-chevron-down"></i>
+											Aulas 
+											<i :class="expandedCourseId === course.id ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
 										</button>
 									</div>
 								</td>
 							</tr>
-							<tr v-for="course in courseStore.courses" :key="'lessons-' + course.id" class="collapse" :id="'aulas-curso-' + course.id">
+							<tr v-for="course in courseStore.courses" :key="'lessons-' + course.id" :class="{'collapse show': expandedCourseId === course.id, 'collapse': expandedCourseId !== course.id}" :id="'aulas-curso-' + course.id">
 								<td colspan="4">
 									<div class="aulas-container">
 										<div v-if="!course.lessons || course.lessons.length === 0" class="alert alert-info">
@@ -215,6 +215,7 @@ const isAddingLesson = ref(false)
 const successMessage = ref('')
 const deletingCourseIds = reactive(new Set<number>())
 const editingCourseId = ref<number | null>(null)
+const expandedCourseId = ref<number | null>(null)
 const editingCourse = ref<CreateCoursePayload>({
   name: '',
   description: '',
@@ -373,6 +374,16 @@ const handleRemoveLesson = async (courseId: number, lessonId: number) => {
     } catch (error) {
       console.error('Failed to remove lesson:', error)
     }
+  }
+}
+
+const toggleLessonsSection = (courseId: number) => {
+  // If clicking the already expanded section, collapse it
+  if (expandedCourseId.value === courseId) {
+    expandedCourseId.value = null
+  } else {
+    // Otherwise, collapse the current one and expand the clicked one
+    expandedCourseId.value = courseId
   }
 }
 
