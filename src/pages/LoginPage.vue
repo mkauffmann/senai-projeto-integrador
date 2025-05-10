@@ -7,12 +7,12 @@
 						<h2>Entrar</h2>
 						<form @submit.prevent="fazerLogin">
 							<div class="mb-3">
-								<label for="exampleInputEmail1" class="form-label">Email</label>
+								<label for="exampleInputEmail1" class="form-label">Username</label>
 								<input
-									type="email"
+									type="text"
 									class="form-control custom-input"
 									id="exampleInputEmail1"
-									v-model="loginData.email"
+									v-model="loginData.username"
 									aria-describedby="emailHelp"
 								/>
 							</div>
@@ -269,130 +269,69 @@
 
 <script setup lang="ts">
 import {ref, reactive, onMounted, computed} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {
 	validaNome,
 	validaCpf,
 	validaTelefone,
 	validaCelular,
 	validaSenha,
-	buscaCep,
 } from "@/utils/formValidator";
+import {loginUser, RegisterPayload} from "@/services/auth.service";
+import {useUserStore} from "@/stores/user";
 
 const route = useRoute();
+const router = useRouter();
+const userStore = useUserStore();
 const cadastroSection = ref<HTMLElement | null>(null);
 
 // Dados para o formulário de login
 const loginData = reactive({
-  email: '',
+  username: '',
   senha: ''
-
 });
 
 // Dados para o formulário de cadastro
-const cadastroData = reactive({
-  nome: '',
-  cpf: '',
-  telefone: '',
-  celular: '',
-  cep: '',
-  logradouro: '',
-  numero: '',
-  complemento: '',
-  bairro: '',
-  cidade: '',
-  estado: '',
-  senha: '',
-  senhaConfirmar: ''
+const cadastroData = reactive<RegisterPayload>({
+  username: '',
+  email: '',
+  password: ''
 });
 
 // Controle de erros de validação
 const erros = reactive({
-  nome: false,
-  cpf: false,
-  telefone: false,
-  celular: false,
-  cep: false,
-  senha: false
+  username: false,
+  email: false,
+  password: false
 });
 
 // Verificar se o formulário está válido
 const formValido = computed(() => {
   // Campos obrigatórios preenchidos e sem erros
   return (
-    cadastroData.nome !== '' &&
-    cadastroData.cpf !== '' &&
-    cadastroData.celular !== '' &&
-    cadastroData.cep !== '' &&
-    cadastroData.logradouro !== '' &&
-    cadastroData.numero !== '' &&
-    cadastroData.senha !== '' &&
-    cadastroData.senhaConfirmar !== '' &&
-    !erros.nome &&
-    !erros.cpf &&
-    !erros.telefone &&
-    !erros.celular &&
-    !erros.cep &&
-    !erros.senha
+    cadastroData.username !== '' &&
+    cadastroData.email !== '' &&
+    cadastroData.password !== '' &&
+    !erros.username &&
+    !erros.email &&
+    !erros.password
   );
 });
 
 // Funções de validação
-function validarNome() {
-  erros.nome = cadastroData.nome !== '' && !validaNome(cadastroData.nome);
+function validarUsername() {
+  erros.username = cadastroData.username !== '' && !validaUsername(cadastroData.username);
 }
 
-function validarCpf() {
-  erros.cpf = cadastroData.cpf !== '' && !validaCpf(cadastroData.cpf);
-}
-
-function validarTelefone() {
-  erros.telefone = cadastroData.telefone !== '' && !validaTelefone(cadastroData.telefone);
-}
-
-function validarCelular() {
-  erros.celular = cadastroData.celular !== '' && !validaCelular(cadastroData.celular);
-}
-
-function validarSenha() {
-  erros.senha = cadastroData.senha !== '' && !validaSenha(cadastroData.senha, cadastroData.senhaConfirmar);
+function validarPassword() {
+  erros.password = cadastroData.password !== '' && !validaPassword(cadastroData.password);
 }
 
 // Buscar endereço pelo CEP
-async function buscarCep() {
-  if (cadastroData.cep.length !== 8) {
-    erros.cep = true;
-    limparEndereco();
-    return;
-  }
-
-  try {
-    const endereco = await buscaCep(cadastroData.cep);
-    cadastroData.logradouro = endereco.logradouro;
-    cadastroData.bairro = endereco.bairro;
-    cadastroData.cidade = endereco.localidade;
-    cadastroData.estado = endereco.uf;
-    erros.cep = false;
-  } catch (error) {
-    erros.cep = true;
-    limparEndereco();
-    alert('CEP não encontrado');
-  }
-}
-
-function limparEndereco() {
-  cadastroData.logradouro = '';
-  cadastroData.bairro = '';
-  cadastroData.cidade = '';
-  cadastroData.estado = '';
-}
 
 function validarFormulario() {
-  validarNome();
-  validarCpf();
-  validarTelefone();
-  validarCelular();
-  validarSenha();
+  validarUsername();
+  validarPassword();
   
   if (formValido.value) {
     alert('Campos validados!');
@@ -411,13 +350,30 @@ function limparFormulario() {
   });
 }
 
-function fazerLogin() {
-  // Simulação de login
-  console.log('Dados de login:', loginData);
-  alert('Login realizado com sucesso!');
-  // Limpar o formulário
-  loginData.email = '';
-  loginData.senha = '';
+async function fazerLogin() {
+  try {
+    // Call the login service with credentials
+    const response = await loginUser({
+      username: loginData.username,
+      password: loginData.senha
+    });
+    
+    // Set the token in the store (this will also extract user info)
+    userStore.setToken(response.access_token);
+    
+    // Show success message
+    alert('Login realizado com sucesso!');
+    
+    // Navigate to home page or dashboard
+    router.push('/');
+    
+    // Clear the form
+    loginData.username = '';
+    loginData.senha = '';
+  } catch (error) {
+    console.error('Erro ao fazer login:', error);
+    alert('Falha no login. Verifique suas credenciais.');
+  }
 }
 
 function cadastrar() {
