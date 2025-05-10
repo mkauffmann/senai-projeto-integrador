@@ -9,9 +9,8 @@
     </router-link>
     <ul class="nav-items">
       <div class="nav-links" :class="{ closed: !isMobileMenuOpen }">
-        <li class="nav-item"><router-link to="/catalogo">Catálogo</router-link></li>
         <li class="nav-item"><router-link to="/sobre">Sobre</router-link></li>
-        <li class="nav-item"><router-link to="/contato">Contato</router-link></li>
+        <li class="nav-item" v-if="userStore.isLoggedIn"><router-link to="/gerenciar-curso">Gerenciar Cursos</router-link></li>
         <li class="nav-item login login-mobile">
           <router-link v-if="!userStore.isLoggedIn" to="/login">Entrar</router-link>
           <template v-else>

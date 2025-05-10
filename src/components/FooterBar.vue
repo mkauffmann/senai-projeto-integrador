@@ -24,9 +24,8 @@
 			<div class="footer-nav">
 				<ul class="footer-nav-items">
 					<div class="footer-nav-links">
-						<li class="nav-item"><router-link to="/catalogo">Catálogo</router-link></li>
 						<li class="nav-item"><router-link to="/sobre">Sobre</router-link></li>
-						<li class="nav-item"><router-link to="/contato">Contato</router-link></li>
+						<li class="nav-item" v-if="userStore.isLoggedIn"><router-link to="/gerenciar-curso">Gerenciar Cursos</router-link></li>
 						<li class="nav-item"><router-link to="/login">Entrar</router-link></li>
 					</div>
 					<li class="nav-item busca-footer">
@@ -42,7 +41,9 @@
 </template>
 
 <script setup lang="ts">
-// Sem lógica JavaScript adicional por enquanto
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
 </script>
 
 <style scoped>
