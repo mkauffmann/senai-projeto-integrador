@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { createCourse, deleteCourse, getAllCourses, addLessonToCourse, deleteLessonFromCourse, updateCourseInfo } from '@/services/course.service'
 import type { Course, CreateCoursePayload } from '@/services/course.service'
+import { createLesson } from '@/services/lesson.service'
+import type { CreateLessonPayload } from '@/services/lesson.service'
 
 export const useCourseStore = defineStore('course', {
   state: () => ({
@@ -47,6 +49,21 @@ export const useCourseStore = defineStore('course', {
         this.courses = this.courses.filter(course => course.id !== courseId)
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Failed to delete course'
+        console.error(error)
+        throw error
+      } finally {
+        this.loading = false
+      }
+    },
+    
+    async addLesson(lessonData: CreateLessonPayload) {
+      try {
+        this.loading = true
+        this.error = null
+        const newLesson = await createLesson(lessonData)
+        return newLesson
+      } catch (error) {
+        this.error = error instanceof Error ? error.message : 'Failed to add lesson'
         console.error(error)
         throw error
       } finally {
