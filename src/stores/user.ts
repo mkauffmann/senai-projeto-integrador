@@ -12,6 +12,9 @@ export const useUserStore = defineStore('user', () => {
   const token = ref('')
 
   token.value = localStorage.getItem('authToken') || ''
+  if (token.value) {
+    setToken(token.value)
+  }
 
   function setUser(userData: User) {
     user.value = userData

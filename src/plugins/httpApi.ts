@@ -8,7 +8,7 @@ httpAPI.defaults.baseURL = import.meta.env.VITE_APP_API_URL
 httpAPI.interceptors.request.use(
   (config: any) => {
     const { token } = useUserStore()
-    config.headers.Authorization = token
+    config.headers.Authorization = token ? 'Bearer ' + token : ''
     config.headers['Content-Type'] = 'application/json'
     return config
   },

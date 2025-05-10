@@ -7,7 +7,7 @@
 						<div class="row mb-3 align-items-center">
 							<label for="nomeDoCurso" class="col-3 form-label fw-bold">Nome do Curso</label>
 							<div class="col-9">
-								<input v-model="newCourse.name" type="text" class="form-control" id="nomeDoCurso" required />
+								<input v-model="newCourse.name" type="text" class="form-control" id="nomeDoCurso" required :disabled="isSubmitting" />
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -19,19 +19,26 @@
 									id="descricaoCurso"
 									rows="3"
 									required
+									:disabled="isSubmitting"
 								></textarea>
 							</div>
 						</div>
 						<div class="row mb-3 align-items-center">
 							<label for="coverImgUrl" class="col-3 form-label fw-bold">URL da Imagem</label>
 							<div class="col-9">
-								<input v-model="newCourse.coverImgUrl" type="text" class="form-control" id="coverImgUrl" required />
+								<input v-model="newCourse.coverImgUrl" type="text" class="form-control" id="coverImgUrl" required :disabled="isSubmitting" />
 							</div>
 						</div>
-						<button type="submit" class="btn btn-primary" :disabled="courseStore.loading">
-							{{ courseStore.loading ? 'Salvando...' : 'Salvar Curso' }}
+						<button type="submit" class="btn btn-primary" :disabled="isSubmitting || courseStore.loading">
+							<span v-if="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+							{{ isSubmitting ? 'Salvando...' : 'Salvar Curso' }}
 						</button>
 					</form>
+
+					<div v-if="successMessage" class="alert alert-success mt-3">
+						{{ successMessage }}
+					</div>
+					
 					<div v-if="courseStore.error" class="alert alert-danger mt-3">
 						{{ courseStore.error }}
 					</div>
@@ -101,6 +108,8 @@ import { useCourseStore } from '@/stores/course'
 import type { CreateCoursePayload } from '@/services/course.service'
 
 const courseStore = useCourseStore()
+const isSubmitting = ref(false)
+const successMessage = ref('')
 
 const newCourse = ref<CreateCoursePayload>({
   name: '',
@@ -120,10 +129,22 @@ const resetForm = () => {
 
 const handleCreateCourse = async () => {
   try {
+    isSubmitting.value = true
+    successMessage.value = ''
+    
     await courseStore.addCourse(newCourse.value)
+    
+    successMessage.value = 'Curso criado com sucesso!'
     resetForm()
+    
+    // Limpa a mensagem de sucesso após 5 segundos
+    setTimeout(() => {
+      successMessage.value = ''
+    }, 5000)
   } catch (error) {
     console.error('Failed to create course:', error)
+  } finally {
+    isSubmitting.value = false
   }
 }
 
