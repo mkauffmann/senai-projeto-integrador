@@ -51,7 +51,7 @@ export const getAllCourses = async () => {
  * Removes a lesson from a course
  */
 export const deleteLessonFromCourse = async (courseId: number, lessonId: number) => {
-  const response = await httpAPI.delete(`courses/?courseId=${courseId}&lessonId=${lessonId}`)
+  const response = await httpAPI.delete(`courses?courseId=${courseId}&lessonId=${lessonId}`)
   return response.data
 }
 
