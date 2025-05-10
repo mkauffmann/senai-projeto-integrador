@@ -65,6 +65,14 @@ export const deleteLessonFromCourse = async (courseId: number, lessonId: number)
   return response.data
 }
 
+/**
+ * Updates an existing course by ID
+ */
+export const updateCourseInfo = async (id: number, payload: CreateCoursePayload) => {
+  const response = await httpAPI.put<Course>(`courses/${id}`, payload)
+  return response.data
+}
+
 
 
 

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { createCourse, deleteCourse, getAllCourses, addLessonToCourse, deleteLessonFromCourse } from '@/services/course.service'
+import { createCourse, deleteCourse, getAllCourses, addLessonToCourse, deleteLessonFromCourse, updateCourseInfo } from '@/services/course.service'
 import type { Course, CreateCoursePayload, CreateLessonPayload } from '@/services/course.service'
 
 export const useCourseStore = defineStore('course', {
@@ -79,6 +79,25 @@ export const useCourseStore = defineStore('course', {
         await this.fetchAllCourses()
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Failed to remove lesson from course'
+        console.error(error)
+        throw error
+      } finally {
+        this.loading = false
+      }
+    },
+    
+    async updateCourse(courseId: number, courseData: CreateCoursePayload) {
+      try {
+        this.loading = true
+        this.error = null
+        const updatedCourse = await updateCourseInfo(courseId, courseData)
+        const index = this.courses.findIndex(course => course.id === courseId)
+        if (index !== -1) {
+          this.courses[index] = updatedCourse
+        }
+        return updatedCourse
+      } catch (error) {
+        this.error = error instanceof Error ? error.message : 'Failed to update course'
         console.error(error)
         throw error
       } finally {

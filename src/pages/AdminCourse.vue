@@ -54,33 +54,82 @@
 							<tr>
 								<th>Nome do Curso</th>
 								<th>Descrição</th>
+								<th>URL da Imagem</th>
 								<th>Ações</th>
 							</tr>
 						</thead>
 						<tbody id="tabelaCursos">
 							<tr v-for="course in courseStore.courses" :key="course.id" :data-curso-id="course.id">
-								<td>{{ course.name }}</td>
-								<td>{{ course.description }}</td>
 								<td>
-									<button class="btn btn-sm btn-warning" @click="editCourse(course)" :disabled="deletingCourseIds.has(course.id)">
-										<i class="bi bi-pencil"></i>
-									</button>
-									<button class="btn btn-sm btn-danger" @click="handleDeleteCourse(course.id)" :disabled="deletingCourseIds.has(course.id)">
-										<span v-if="deletingCourseIds.has(course.id)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-										<i v-else class="bi bi-trash"></i>
-									</button>
-									<button
-										class="btn btn-sm btn-info btn-toggle-modulos"
-										data-bs-toggle="collapse"
-										:data-bs-target="'#modulos-curso-' + course.id"
-										:disabled="deletingCourseIds.has(course.id)"
-									>
-										Módulos <i class="bi bi-chevron-down"></i>
-									</button>
+									<input 
+										v-if="editingCourseId === course.id" 
+										v-model="editingCourse.name" 
+										type="text" 
+										class="form-control" 
+										:disabled="isUpdating"
+									/>
+									<span v-else>{{ course.name }}</span>
+								</td>
+								<td>
+									<textarea 
+										v-if="editingCourseId === course.id" 
+										v-model="editingCourse.description" 
+										class="form-control" 
+										rows="2"
+										:disabled="isUpdating"
+									></textarea>
+									<span v-else>{{ course.description }}</span>
+								</td>
+								<td>
+									<input 
+										v-if="editingCourseId === course.id" 
+										v-model="editingCourse.coverImgUrl" 
+										type="text" 
+										class="form-control" 
+										:disabled="isUpdating"
+									/>
+									<div v-else class="course-image-container">
+										<img 
+											:src="course.coverImgUrl" 
+											:alt="course.name" 
+											class="course-thumbnail"
+											@error="handleImageError"
+										>
+									</div>
+								</td>
+								<td v-if="editingCourseId === course.id">
+									<div>
+										<button class="btn btn-sm btn-success" @click="saveEditedCourse" :disabled="isUpdating">
+											<span v-if="isUpdating" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+											<i v-else class="bi bi-check"></i> Salvar
+										</button>
+										<button class="btn btn-sm btn-secondary ms-1" @click="cancelEditing" :disabled="isUpdating">
+											<i class="bi bi-x"></i> Cancelar
+										</button>
+									</div>
+								</td>
+								<td v-else>
+									<div>
+										<button class="btn btn-sm btn-warning" @click="startEditing(course)" :disabled="deletingCourseIds.has(course.id) || editingCourseId !== null">
+											<i class="bi bi-pencil"></i>
+										</button>
+										<button class="btn btn-sm btn-danger" @click="handleDeleteCourse(course.id)" :disabled="deletingCourseIds.has(course.id) || editingCourseId !== null">
+											<span v-if="deletingCourseIds.has(course.id)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+											<i v-else class="bi bi-trash"></i>
+										</button>
+										<button
+											class="btn btn-sm btn-info btn-toggle-modulos"
+											data-bs-toggle="collapse"
+											:data-bs-target="'#modulos-curso-' + course.id"
+											:disabled="deletingCourseIds.has(course.id) || editingCourseId !== null"
+										>
+											Módulos <i class="bi bi-chevron-down"></i>
+										</button>
+									</div>
 								</td>
 							</tr>
 							<tr v-for="course in courseStore.courses" :key="'modules-' + course.id" class="collapse" :id="'modulos-curso-' + course.id">
-								<td colspan="3">
+								<td colspan="4">
 									<div class="modulos-container">
 										<!-- Módulos irão aqui quando implementarmos -->
 										<div class="alert alert-info">
@@ -107,12 +156,20 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
 import { useCourseStore } from '@/stores/course'
-import type { CreateCoursePayload } from '@/services/course.service'
+import type { CreateCoursePayload, Course } from '@/services/course.service'
 
 const courseStore = useCourseStore()
 const isSubmitting = ref(false)
+const isUpdating = ref(false)
 const successMessage = ref('')
 const deletingCourseIds = reactive(new Set<number>())
+const editingCourseId = ref<number | null>(null)
+const editingCourse = ref<CreateCoursePayload>({
+  name: '',
+  description: '',
+  coverImgUrl: '',
+  lessons: []
+})
 
 const newCourse = ref<CreateCoursePayload>({
   name: '',
@@ -170,9 +227,48 @@ const handleDeleteCourse = async (courseId: number) => {
   }
 }
 
-const editCourse = (course: any) => {
-  // Implementação futura
-  alert('Editar curso: ' + course.name)
+const startEditing = (course: Course) => {
+  editingCourseId.value = course.id
+  editingCourse.value = {
+    name: course.name,
+    description: course.description,
+    coverImgUrl: course.coverImgUrl,
+    lessons: course.lessons || []
+  }
+}
+
+const cancelEditing = () => {
+  editingCourseId.value = null
+}
+
+const saveEditedCourse = async () => {
+  if (!editingCourseId.value) return
+  
+  try {
+    isUpdating.value = true
+    await courseStore.updateCourse(editingCourseId.value, editingCourse.value)
+    
+    editingCourseId.value = null
+    successMessage.value = 'Curso atualizado com sucesso!'
+    
+    // Limpa a mensagem de sucesso após 2.5 segundos
+    setTimeout(() => {
+      successMessage.value = ''
+    }, 2500)
+  } catch (error) {
+    console.error('Failed to update course:', error)
+  } finally {
+    isUpdating.value = false
+  }
+}
+
+const editCourse = (course: Course) => {
+  startEditing(course)
+}
+
+const handleImageError = () => {
+  // Handle image loading error
+  console.error('Failed to load image')
 }
 
 onMounted(async () => {
@@ -220,5 +316,18 @@ iframe {
 
 .descricao-pessoa h5 {
   color: #98BFE5;
+}
+
+.course-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.course-thumbnail {
+  max-width: 300px;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 4px;
 }
 </style>
