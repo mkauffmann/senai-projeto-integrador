@@ -1,27 +1,17 @@
 import httpAPI from "@/plugins/httpApi"
+import type { Lesson } from "./lesson.service";
 
 export type Course = {
     id: number;
     name: string;
     description: string;
     coverImgUrl: string;
-    lessons: null[];
+    lessons?: Lesson[];
 }
 
 export type CreateCoursePayload = Omit<Course, 'id'>
 
 export type CreateCourseResponse = Course
-
-export type Lesson = {
-    id: number;
-    name: string;
-    description: string;
-    videoUrl: string;
-}
-
-export type CreateLessonPayload = Omit<Lesson, 'id'>
-
-export type CreateLessonResponse = Lesson
 
 export type GetAllCoursesResponse = Course[]
 
@@ -45,7 +35,7 @@ export const deleteCourse = async (id: number) => {
  * Adds a lesson to a course
  */
 export const addLessonToCourse = async (courseId: number, lessonId: number) => {
-  const response = await httpAPI.put<CreateLessonResponse>(`courses/?courseId=${courseId}&lessonId=${lessonId}`)
+  const response = await httpAPI.put<Course>(`courses?courseId=${courseId}&lessonId=${lessonId}`)
   return response.data
 }
 
@@ -66,7 +56,7 @@ export const deleteLessonFromCourse = async (courseId: number, lessonId: number)
 }
 
 /**
- * Updates an existing course by ID
+ * Updates course information
  */
 export const updateCourseInfo = async (id: number, payload: CreateCoursePayload) => {
   const response = await httpAPI.put<Course>(`courses/${id}`, payload)

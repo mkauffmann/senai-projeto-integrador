@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { createCourse, deleteCourse, getAllCourses, addLessonToCourse, deleteLessonFromCourse, updateCourseInfo } from '@/services/course.service'
-import type { Course, CreateCoursePayload, CreateLessonPayload } from '@/services/course.service'
+import type { Course, CreateCoursePayload } from '@/services/course.service'
 
 export const useCourseStore = defineStore('course', {
   state: () => ({
@@ -103,6 +103,6 @@ export const useCourseStore = defineStore('course', {
       } finally {
         this.loading = false
       }
-    }
+    },
   }
 })

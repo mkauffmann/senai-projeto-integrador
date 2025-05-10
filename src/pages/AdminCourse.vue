@@ -61,37 +61,37 @@
 						<tbody id="tabelaCursos">
 							<tr v-for="course in courseStore.courses" :key="course.id" :data-curso-id="course.id">
 								<td>
-									<input 
-										v-if="editingCourseId === course.id" 
-										v-model="editingCourse.name" 
-										type="text" 
-										class="form-control" 
+									<input
+										v-if="editingCourseId === course.id"
+										v-model="editingCourse.name"
+										type="text"
+										class="form-control"
 										:disabled="isUpdating"
 									/>
 									<span v-else>{{ course.name }}</span>
 								</td>
 								<td>
-									<textarea 
-										v-if="editingCourseId === course.id" 
-										v-model="editingCourse.description" 
-										class="form-control" 
+									<textarea
+										v-if="editingCourseId === course.id"
+										v-model="editingCourse.description"
+										class="form-control"
 										rows="2"
 										:disabled="isUpdating"
 									></textarea>
 									<span v-else>{{ course.description }}</span>
 								</td>
 								<td>
-									<input 
-										v-if="editingCourseId === course.id" 
-										v-model="editingCourse.coverImgUrl" 
-										type="text" 
-										class="form-control" 
+									<input
+										v-if="editingCourseId === course.id"
+										v-model="editingCourse.coverImgUrl"
+										type="text"
+										class="form-control"
 										:disabled="isUpdating"
 									/>
 									<div v-else class="course-image-container">
-										<img 
-											:src="course.coverImgUrl" 
-											:alt="course.name" 
+										<img
+											:src="course.coverImgUrl"
+											:alt="course.name"
 											class="course-thumbnail"
 											@error="handleImageError"
 										>
@@ -120,24 +120,73 @@
 										<button
 											class="btn btn-sm btn-info btn-toggle-modulos"
 											data-bs-toggle="collapse"
-											:data-bs-target="'#modulos-curso-' + course.id"
+											:data-bs-target="'#aulas-curso-' + course.id"
 											:disabled="deletingCourseIds.has(course.id) || editingCourseId !== null"
 										>
-											Módulos <i class="bi bi-chevron-down"></i>
+											Aulas <i class="bi bi-chevron-down"></i>
 										</button>
 									</div>
 								</td>
 							</tr>
-							<tr v-for="course in courseStore.courses" :key="'modules-' + course.id" class="collapse" :id="'modulos-curso-' + course.id">
+							<tr v-for="course in courseStore.courses" :key="'lessons-' + course.id" class="collapse" :id="'aulas-curso-' + course.id">
 								<td colspan="4">
-									<div class="modulos-container">
-										<!-- Módulos irão aqui quando implementarmos -->
-										<div class="alert alert-info">
-											Módulos serão implementados em breve.
+									<div class="aulas-container">
+										<div v-if="!course.lessons || course.lessons.length === 0" class="alert alert-info">
+											Nenhuma aula cadastrada para este curso.
 										</div>
-										<button class="btn btn-success btn-add-modulo" :data-curso-id="course.id">
-											<i class="bi bi-plus"></i> Adicionar Módulo
-										</button>
+										<table v-else class="table table-sm table-bordered">
+											<thead>
+												<tr>
+													<th>Nome da Aula</th>
+													<th>Descrição</th>
+													<th>URL do Vídeo</th>
+													<th>Ações</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr v-for="lesson in course.lessons" :key="lesson.id">
+													<td>{{ lesson.name }}</td>
+													<td>{{ lesson.description }}</td>
+													<td>
+														<a :href="lesson.videoUrl" target="_blank" class="text-truncate d-inline-block" style="max-width: 250px;">
+															{{ lesson.videoUrl }}
+														</a>
+													</td>
+													<td>
+														<button class="btn btn-sm btn-danger" @click="handleRemoveLesson(course.id, lesson.id)">
+															<i class="bi bi-trash"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+
+										<!-- Form to add new lesson -->
+										<div class="card mt-3">
+											<div class="card-header">
+												<h5 class="mb-0">Adicionar Nova Aula</h5>
+											</div>
+											<div class="card-body">
+												<form @submit.prevent="handleAddLesson(course.id)">
+													<div class="mb-3">
+														<label for="lessonName" class="form-label">Nome da Aula</label>
+														<input v-model="newLesson.name" type="text" class="form-control" id="lessonName" required :disabled="isAddingLesson">
+													</div>
+													<div class="mb-3">
+														<label for="lessonDescription" class="form-label">Descrição</label>
+														<textarea v-model="newLesson.description" class="form-control" id="lessonDescription" rows="2" required :disabled="isAddingLesson"></textarea>
+													</div>
+													<div class="mb-3">
+														<label for="lessonVideoUrl" class="form-label">URL do Vídeo</label>
+														<input v-model="newLesson.videoUrl" type="text" class="form-control" id="lessonVideoUrl" required :disabled="isAddingLesson">
+													</div>
+													<button type="submit" class="btn btn-success" :disabled="isAddingLesson">
+														<span v-if="isAddingLesson" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+														{{ isAddingLesson ? 'Adicionando...' : 'Adicionar Aula' }}
+													</button>
+												</form>
+											</div>
+										</div>
 									</div>
 								</td>
 							</tr>
@@ -157,10 +206,12 @@
 import { ref, onMounted, reactive } from 'vue'
 import { useCourseStore } from '@/stores/course'
 import type { CreateCoursePayload, Course } from '@/services/course.service'
+import type { CreateLessonPayload } from '@/services/lesson.service'
 
 const courseStore = useCourseStore()
 const isSubmitting = ref(false)
 const isUpdating = ref(false)
+const isAddingLesson = ref(false)
 const successMessage = ref('')
 const deletingCourseIds = reactive(new Set<number>())
 const editingCourseId = ref<number | null>(null)
@@ -178,12 +229,26 @@ const newCourse = ref<CreateCoursePayload>({
   lessons: []
 })
 
+const newLesson = ref<CreateLessonPayload>({
+  name: '',
+  description: '',
+  videoUrl: ''
+})
+
 const resetForm = () => {
   newCourse.value = {
     name: '',
     description: '',
     coverImgUrl: '',
     lessons: []
+  }
+}
+
+const resetLessonForm = () => {
+  newLesson.value = {
+    name: '',
+    description: '',
+    videoUrl: ''
   }
 }
 
@@ -243,14 +308,14 @@ const cancelEditing = () => {
 
 const saveEditedCourse = async () => {
   if (!editingCourseId.value) return
-  
+
   try {
     isUpdating.value = true
     await courseStore.updateCourse(editingCourseId.value, editingCourse.value)
-    
+
     editingCourseId.value = null
     successMessage.value = 'Curso atualizado com sucesso!'
-    
+
     // Limpa a mensagem de sucesso após 2.5 segundos
     setTimeout(() => {
       successMessage.value = ''
@@ -271,7 +336,48 @@ const handleImageError = () => {
   console.error('Failed to load image')
 }
 
+const handleAddLesson = async (courseId: number) => {
+  try {
+    isAddingLesson.value = true
+
+    // Create the lesson first
+    const lesson = await courseStore.addLesson(newLesson.value)
+
+    // Then add it to the course
+    await courseStore.addLessonToCourse(courseId, lesson.id)
+
+    successMessage.value = 'Aula adicionada com sucesso!'
+    resetLessonForm()
+
+    // Clear success message after 2.5 seconds
+    setTimeout(() => {
+      successMessage.value = ''
+    }, 2500)
+  } catch (error) {
+    console.error('Failed to add lesson:', error)
+  } finally {
+    isAddingLesson.value = false
+  }
+}
+
+const handleRemoveLesson = async (courseId: number, lessonId: number) => {
+  if (confirm('Tem certeza que deseja remover esta aula do curso?')) {
+    try {
+      await courseStore.removeLessonFromCourse(courseId, lessonId)
+      successMessage.value = 'Aula removida com sucesso!'
+
+      // Clear success message after 2.5 seconds
+      setTimeout(() => {
+        successMessage.value = ''
+      }, 2500)
+    } catch (error) {
+      console.error('Failed to remove lesson:', error)
+    }
+  }
+}
+
 onMounted(async () => {
+  // Just fetch courses, as they already include lessons
   await courseStore.fetchAllCourses()
 })
 </script>
