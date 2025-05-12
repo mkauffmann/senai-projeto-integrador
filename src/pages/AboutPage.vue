@@ -5,7 +5,7 @@
 				<div class="col-12 foto-campus-container">
 					<img
 						class="img-fluid foto foto-campus"
-						src="@/assets/images/estudantes-campus.jpg"
+						src="@/assets/images/estudanteProgramacao.jpg"
 						alt="Estudantes no campus"
 					/>
 				</div>
